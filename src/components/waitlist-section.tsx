@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+import Image from "next/image";
 
 export function WaitlistSection() {
   const [name, setName] = useState("");
@@ -20,26 +21,27 @@ export function WaitlistSection() {
           
           {/* Left: Lifestyle Image */}
           <div className="w-full md:w-1/2 relative min-h-[500px]">
-            <img 
+            <Image 
               src="/images/contact-form-image.webp" 
               alt="Life of Leisure" 
+              fill
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-brand-red/10 mix-blend-multiply" />
             
             {/* Overlay Text */}
             <div className="absolute inset-0 flex items-center justify-center p-8">
-               <motion.div 
-                 initial={{ opacity: 0, rotate: -5 }}
-                 whileInView={{ opacity: 1, rotate: -12 }}
-                 viewport={{ once: true }}
-                 transition={{ duration: 1, delay: 0.4 }}
-                 className="text-center"
-               >
-                 <span className="font-serif italic text-6xl md:text-8xl text-white drop-shadow-lg leading-none block transform -translate-y-4">Life</span>
-                 <span className="font-serif italic text-6xl md:text-8xl text-white drop-shadow-lg leading-none block ml-12">of</span>
-                 <span className="font-serif italic text-6xl md:text-8xl text-white drop-shadow-lg leading-none block -ml-8">Leisure</span>
-               </motion.div>
+                <motion.div 
+                  initial={{ opacity: 0, rotate: -5 }}
+                  whileInView={{ opacity: 1, rotate: -12 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1, delay: 0.4 }}
+                  className="text-center"
+                >
+                  <span className="font-serif italic text-6xl md:text-8xl text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] leading-none block transform -translate-y-4">Life</span>
+                  <span className="font-serif italic text-6xl md:text-8xl text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] leading-none block ml-12">of</span>
+                  <span className="font-serif italic text-6xl md:text-8xl text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] leading-none block -ml-8">Leisure</span>
+                </motion.div>
             </div>
           </div>
 
@@ -60,6 +62,7 @@ export function WaitlistSection() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="First Name"
+                  aria-label="First Name"
                   className="w-full bg-transparent border-b-2 border-brand-red/20 py-3 text-brand-cocoa placeholder:text-brand-cocoa/40 focus:outline-none focus:border-brand-red transition-all text-lg font-serif"
                 />
               </div>
@@ -70,6 +73,7 @@ export function WaitlistSection() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email Address"
+                  aria-label="Email Address"
                   className="w-full bg-transparent border-b-2 border-brand-red/20 py-3 text-brand-cocoa placeholder:text-brand-cocoa/40 focus:outline-none focus:border-brand-red transition-all text-lg font-serif"
                 />
               </div>
@@ -78,6 +82,7 @@ export function WaitlistSection() {
                 <input 
                   type="tel" 
                   placeholder="Phone Number (SMS Updates)"
+                  aria-label="Phone Number for SMS Updates"
                   className="w-full bg-transparent border-b-2 border-brand-red/20 py-3 text-brand-cocoa placeholder:text-brand-cocoa/40 focus:outline-none focus:border-brand-red transition-all text-lg font-serif"
                 />
               </div>

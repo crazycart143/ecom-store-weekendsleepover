@@ -20,6 +20,7 @@ export function Navbar() {
           <button 
             className="md:hidden p-2 text-brand-dark-pink"
             onClick={() => setIsMobileMenuOpen(true)}
+            aria-label="Open mobile menu"
           >
             <Menu size={20} />
           </button>
@@ -47,13 +48,17 @@ export function Navbar() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-3">
-             <button className="text-brand-dark-pink transition-colors hidden md:block">
+             <button 
+               className="text-brand-dark-pink transition-colors hidden md:block"
+               aria-label="Search products"
+             >
                <Search size={18} />
              </button>
              
              <button 
                onClick={() => setIsCartOpen(true)}
                className="text-brand-dark-pink transition-colors relative mr-2 hover:scale-110 active:scale-95"
+               aria-label="Open shopping cart"
              >
                <ShoppingBag size={18} />
                <span className="absolute -top-1 -right-1 w-2 h-2 bg-brand-red rounded-full ring-2 ring-white/10" />
@@ -83,6 +88,7 @@ export function Navbar() {
               <button 
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="p-2 text-white bg-white/10 rounded-full"
+                aria-label="Close mobile menu"
               >
                 <X size={24} />
               </button>

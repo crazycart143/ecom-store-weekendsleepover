@@ -2,29 +2,33 @@
 
 import { motion } from "framer-motion";
 import { WaitlistForm } from "@/components/waitlist-form";
+import Image from "next/image";
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen w-full  overflow-hidden flex items-center justify-center bg-brand-light-pink selection:bg-brand-red selection:text-white">
+    <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center bg-brand-light-pink selection:bg-brand-red selection:text-white">
       {/* Background Image - Retro Grainy Beach */}
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-center"
-        style={{
-          backgroundImage: "url('/images/hero-background.png')",
-        }}
+      <Image 
+        src="/images/hero-background.png"
+        alt="Relaxing beach background"
+        fill
+        priority
+        className="object-cover z-0"
+        sizes="100vw"
+        quality={90}
       />
       
       {/* Grain Overlay */}
-      <div className="absolute inset-0 z-0 opacity-20 pointer-events-none mix-blend-overlay" 
+      <div className="absolute inset-0 z-0 opacity-15 pointer-events-none mix-blend-overlay" 
            style={{ backgroundImage: "url('https://grainy-gradients.vercel.app/noise.svg')" }} 
       />
 
-      {/* Dark Overlay - Added for better text contrast */}
-      <div className="absolute inset-0 z-0 bg-black/60" />
+      {/* Dark Overlay - Optimized for better text contrast */}
+      <div className="absolute inset-0 z-0 bg-black/50 backdrop-blur-[2px]" />
       
       {/* Pink Overlay Gradient */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-br from-brand-pink/80 via-brand-light-pink/50 to-brand-red/20 mix-blend-overlay" />
-      <div className="absolute inset-0 z-10 bg-white/10 backdrop-blur-[1px]" />
+      <div className="absolute inset-0 z-10 bg-gradient-to-br from-brand-pink/50 via-brand-light-pink/30 to-brand-red/10 mix-blend-overlay" />
+      <div className="absolute inset-0 z-10 bg-white/5" />
 
       {/* Floating Glass UI Elements */}
       <motion.div 
@@ -70,7 +74,7 @@ export function Hero() {
           transition={{ duration: 1, delay: 0.2 }}
         >
           <span className="block text-brand-dark-pink drop-shadow-sm">WEEKEND</span>
-          <span className="block text-white drop-shadow-lg stroke-brand-red">SLEEPOVER</span>
+          <span className="block text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)]">SLEEPOVER</span>
         </motion.h1>
 
         <motion.div 

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import Image from "next/image";
 
 export function BrandModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,15 +53,17 @@ export function BrandModal() {
                 <button 
                   onClick={handleClose}
                   className="absolute top-4 right-4 z-10 p-2 bg-white/50 hover:bg-white rounded-full transition-colors"
+                  aria-label="Close modal"
                 >
                   <X size={20} className="text-brand-cocoa" />
                 </button>
 
                 {/* Left Side - Image */}
                 <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-full bg-brand-light-pink">
-                  <img 
+                  <Image 
                     src="/images/brand-modal-image.webp" 
                     alt="Morning Ritual" 
+                    fill
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-brand-red/10 mix-blend-multiply" />
@@ -84,6 +87,7 @@ export function BrandModal() {
                     <input 
                       type="email" 
                       placeholder="Your Email"
+                      aria-label="Email address for waitlist"
                       className="w-full bg-brand-light-pink/30 border border-brand-pink/50 rounded-lg px-4 py-3 placeholder:text-brand-dark-pink/40 text-brand-dark-pink focus:outline-none focus:border-brand-red transition-colors text-center font-medium"
                       required
                     />
@@ -117,11 +121,12 @@ export function BrandModal() {
              exit={{ scale: 0, rotate: -180 }}
              whileHover={{ scale: 1.05 }}
              className="fixed bottom-4 left-4 md:bottom-8 md:left-8 z-40 group active:scale-95"
+             aria-label="Open waitlist signup"
            >
              <div className="relative w-20 h-20 md:w-28 md:h-28 flex items-center justify-center pointer-events-none">
                 {/* Rotating Text Ring */}
                 <div className="absolute inset-0 animate-[spin_10s_linear_infinite] group-hover:animate-[spin_4s_linear_infinite]">
-                   <svg viewBox="0 0 100 100" width="100%" height="100%" className="w-full h-full">
+                   <svg viewBox="0 0 100 100" width="100%" height="100%" className="w-full h-full" aria-hidden="true">
                       <defs>
                         <path id="circle" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
                       </defs>

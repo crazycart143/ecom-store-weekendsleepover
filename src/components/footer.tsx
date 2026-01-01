@@ -25,12 +25,13 @@ export function Footer() {
           </div>
 
           <div className="hidden md:block">
-             <button 
-               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-               className="p-4 rounded-full border border-brand-red/20 hover:bg-brand-red hover:text-white transition-colors"
-             >
-                <ArrowUpRight size={20} />
-             </button>
+              <button 
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="p-4 rounded-full border border-brand-red/20 hover:bg-brand-red hover:text-white transition-colors"
+                aria-label="Scroll to top"
+              >
+                 <ArrowUpRight size={20} />
+              </button>
           </div>
         </div>
 

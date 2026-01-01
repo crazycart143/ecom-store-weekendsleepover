@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { Star, Check, ShieldCheck, Truck, RotateCcw } from "lucide-react";
 import { CountdownTimer } from "@/components/countdown-timer";
 
+import Image from "next/image";
+
 export function ProductShowcase() {
   const benefits = [
     "Cloud-soft fleece material",
@@ -26,9 +28,11 @@ export function ProductShowcase() {
             transition={{ duration: 0.8 }}
           >
             <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl">
-              <img 
+              <Image 
                 src="/images/product-image.png" 
                 alt="The Weekend Set Robe"
+                width={800}
+                height={1000}
                 className="object-cover w-full h-full hover:scale-105 transition-transform duration-700"
               />
               

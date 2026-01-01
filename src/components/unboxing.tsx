@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Package, Sparkles } from "lucide-react";
+import Image from "next/image";
 
 export function Unboxing() {
   return (
@@ -34,10 +35,11 @@ export function Unboxing() {
           transition={{ duration: 1 }}
         >
             <div className="relative aspect-[16/9] md:aspect-[21/9] bg-white rounded-[2rem] md:rounded-[3rem] p-4 border border-brand-pink shadow-2xl flex items-center justify-center overflow-hidden group">
-                <img 
+                <Image 
                   src="/images/unboxing-gift-image.png" 
                   alt="Custom Gift Box Unboxing" 
-                  className="w-full h-full object-cover rounded-[1.5rem] md:rounded-[2.5rem] transition-transform duration-700 group-hover:scale-105"
+                  fill
+                  className="object-cover rounded-[1.5rem] md:rounded-[2.5rem] transition-transform duration-700 group-hover:scale-105 p-4"
                 />
                 
                 {/* Floating labels / dots - optional premium touch */}
@@ -70,7 +72,7 @@ export function Unboxing() {
                   transition={{ duration: 0.5, delay: i * 0.1 }}
                 >
                     <span className="font-serif text-brand-red font-bold text-2xl mb-4 opacity-50 italic">0{i+1}</span>
-                    <h4 className="font-bold text-brand-dark-pink mb-2 uppercase tracking-wider text-sm">{item.title}</h4>
+                    <h3 className="font-bold text-brand-dark-pink mb-2 uppercase tracking-wider text-sm">{item.title}</h3>
                     <p className="text-sm text-brand-cocoa/70 leading-relaxed font-sans">{item.desc}</p>
                 </motion.div>
             ))}

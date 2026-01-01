@@ -12,10 +12,14 @@ interface FAQItemProps {
 }
 
 function FAQItem({ question, answer, isOpen, onClick }: FAQItemProps) {
+  const id = question.toLowerCase().replace(/\s+/g, "-");
+  
   return (
     <div className="border-b border-brand-pink/30 last:border-0">
       <button 
         onClick={onClick}
+        aria-expanded={isOpen}
+        aria-controls={`faq-content-${id}`}
         className="w-full py-6 flex items-center justify-between text-left group"
       >
         <span className="font-serif text-xl md:text-2xl text-brand-cocoa group-hover:text-brand-dark-pink transition-colors">
@@ -28,6 +32,8 @@ function FAQItem({ question, answer, isOpen, onClick }: FAQItemProps) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id={`faq-content-${id}`}
+            role="region"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
