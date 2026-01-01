@@ -7,6 +7,7 @@ import { FAQ } from "@/components/faq";
 import { Unboxing } from "@/components/unboxing";
 import { WaitlistSection } from "@/components/waitlist-section";
 import { BrandModal } from "@/components/brand-modal";
+import { CreatorBadge } from "@/components/creator-badge";
 import { Footer } from "@/components/footer";
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
     <main className="min-h-screen bg-brand-cream selection:bg-brand-pink selection:text-brand-dark-pink">
       <Navbar />
       <BrandModal />
+      <CreatorBadge />
       <Hero />
       {/* <Testimonials /> */}
       <ProductShowcase />

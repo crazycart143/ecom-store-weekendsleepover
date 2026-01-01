@@ -116,7 +116,7 @@ export function BrandModal() {
              animate={{ scale: 1, rotate: 0 }}
              exit={{ scale: 0, rotate: -180 }}
              whileHover={{ scale: 1.05 }}
-             className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-40 group active:scale-95"
+             className="fixed bottom-4 left-4 md:bottom-8 md:left-8 z-40 group active:scale-95"
            >
              <div className="relative w-20 h-20 md:w-28 md:h-28 flex items-center justify-center pointer-events-none">
                 {/* Rotating Text Ring */}
