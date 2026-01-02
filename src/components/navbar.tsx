@@ -13,60 +13,64 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl">
-        <div className="bg-white backdrop-blur-xl border border-white/20 rounded-full py-3 px-6 shadow-2xl flex items-center justify-between">
+      <header className="fixed top-0 left-0 z-50 w-full bg-brand-cream/80 backdrop-blur-md border-b border-brand-dark-pink/5 px-6 md:px-12 py-4 md:py-6">
+        <div className="max-w-7xl mx-auto flex items-center justify-between relative">
           
-          {/* Mobile Menu Button - Left */}
-          <button 
-            className="md:hidden p-2 text-brand-dark-pink"
-            onClick={() => setIsMobileMenuOpen(true)}
-            aria-label="Open mobile menu"
-          >
-            <Menu size={20} />
-          </button>
+          {/* Mobile: Cart (Left) | Desktop: Nav */}
+          <div className="flex items-center md:hidden">
+            <button 
+              onClick={() => setIsCartOpen(true)}
+              className="text-brand-dark-pink hover:text-brand-red transition-colors relative"
+              aria-label="Cart"
+            >
+              <ShoppingBag size={18} strokeWidth={1.5} />
+              <span className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-brand-red rounded-full" />
+            </button>
+          </div>
 
-          {/* Logo */}
-          <Link href="/" className="text-xl  md:text-2xl font-serif font-black text-white italic tracking-tighter hover:opacity-80 transition-opacity flex items-center gap-2">
-            <span className="text-brand-dark-pink">WS</span> <span className="hidden md:inline font-sans text-xs not-italic font-bold tracking-widest opacity-60 mt-1"></span>
-          </Link>
-
-          {/* Desktop Nav - Centered */}
-          <nav className="hidden md:flex lg:ml-30 items-center  space-x-8">
-            <Link href="/shop" className="text-sm font-medium text-brand-dark-pink transition-colors relative group">
-              Shop
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all group-hover:w-full" />
+          <nav className="hidden md:flex items-center space-x-12">
+            <Link href="/shop" className="font-title text-[10px] uppercase tracking-[0.3em] text-brand-dark-pink hover:text-brand-red transition-colors">
+              Collection
             </Link>
-            <Link href="/about" className="text-sm font-medium text-brand-dark-pink transition-colors relative group">
-              About
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all group-hover:w-full" />
-            </Link>
-            <Link href="/support" className="text-sm font-medium text-brand-dark-pink transition-colors relative group">
-              Support
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all group-hover:w-full" />
+            <Link href="/about" className="font-title text-[10px] uppercase tracking-[0.3em] text-brand-dark-pink hover:text-brand-red transition-colors">
+              Journal
             </Link>
           </nav>
 
-          {/* Right Actions */}
-          <div className="flex items-center gap-3">
-             <button 
-               className="text-brand-dark-pink transition-colors hidden md:block"
-               aria-label="Search products"
-             >
-               <Search size={18} />
-             </button>
-             
-             <button 
-               onClick={() => setIsCartOpen(true)}
-               className="text-brand-dark-pink transition-colors relative mr-2 hover:scale-110 active:scale-95"
-               aria-label="Open shopping cart"
-             >
-               <ShoppingBag size={18} />
-               <span className="absolute -top-1 -right-1 w-2 h-2 bg-brand-red rounded-full ring-2 ring-white/10" />
-             </button>
+          {/* Logo - Centered Masthead style */}
+          <Link href="/" className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
+            <span className="font-serif text-2xl md:text-4xl text-brand-dark-pink leading-none tracking-tighter whitespace-nowrap">
+              WEEKEND <span className="italic font-light">SLEEPOVER</span>
+            </span>
+          </Link>
 
-             <button className="hidden md:flex bg-brand-dark-pink text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-brand-red transition-all shadow-lg hover:shadow-xl">
-                Join Waitlist
-             </button>
+          {/* Right side: Search (Desktop) & Menu (Mobile) */}
+          <div className="flex items-center space-x-8">
+            <button 
+              className="text-brand-dark-pink hover:text-brand-red transition-colors hidden md:block"
+              aria-label="Search"
+            >
+              <Search size={18} strokeWidth={1.5} />
+            </button>
+            
+            <div className="hidden md:block">
+              <button 
+                onClick={() => setIsCartOpen(true)}
+                className="text-brand-dark-pink hover:text-brand-red transition-colors relative"
+                aria-label="Cart"
+              >
+                <ShoppingBag size={18} strokeWidth={1.5} />
+                <span className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-brand-red rounded-full" />
+              </button>
+            </div>
+
+            <button 
+              className="md:hidden text-brand-dark-pink"
+              onClick={() => setIsMobileMenuOpen(true)}
+              aria-label="Menu"
+            >
+              <Menu size={20} strokeWidth={1.5} />
+            </button>
           </div>
         </div>
       </header>
@@ -78,32 +82,28 @@ export function Navbar() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-[60] bg-brand-dark-pink backdrop-blur-xl flex flex-col p-6 md:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] bg-brand-cream flex flex-col p-12"
           >
-            <div className="flex justify-between items-center mb-12">
-              <span className="font-serif text-2xl text-white font-italic">Menu</span>
-              <button 
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2 text-white bg-white/10 rounded-full"
-                aria-label="Close mobile menu"
-              >
-                <X size={24} />
-              </button>
-            </div>
+            <button 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="absolute top-8 right-8 text-brand-dark-pink"
+            >
+              <X size={24} strokeWidth={1.5} />
+            </button>
             
-            <nav className="flex flex-col space-y-6 text-3xl font-serif text-white text-center">
-              <Link href="/shop" onClick={() => setIsMobileMenuOpen(false)}>Shop</Link>
-              <Link href="/about" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
+            <nav className="flex flex-col space-y-12 text-5xl font-serif text-brand-dark-pink mt-20">
+              <Link href="/shop" onClick={() => setIsMobileMenuOpen(false)}>Collection</Link>
+              <Link href="/about" onClick={() => setIsMobileMenuOpen(false)}>Journal</Link>
               <Link href="/support" onClick={() => setIsMobileMenuOpen(false)}>Support</Link>
             </nav>
             
-            <div className="mt-auto text-center">
-              <button className="w-full bg-white text-brand-dark-pink py-4 rounded-full font-bold uppercase tracking-widest">
-                Join the Waitlist
-              </button>
+            <div className="mt-auto">
+               <p className="font-title text-[10px] tracking-[0.5em] text-brand-dark-pink/40 uppercase">
+                 © 2024 WEEKEND SLEEPOVER
+               </p>
             </div>
           </motion.div>
         )}

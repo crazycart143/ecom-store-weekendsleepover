@@ -3,11 +3,13 @@ import { Hero } from "@/components/hero";
 import { ProductShowcase } from "@/components/product-showcase";
 import { Testimonials } from "@/components/testimonials";
 import { Ritual } from "@/components/ritual";
-import { FAQ } from "@/components/faq";
+import { Moodboard } from "@/components/moodboard";
+import { LeisureWorld } from "@/components/leisure-world";
 import { Unboxing } from "@/components/unboxing";
 import { WaitlistSection } from "@/components/waitlist-section";
 import { BrandModal } from "@/components/brand-modal";
 import { CreatorBadge } from "@/components/creator-badge";
+import { FAQ } from "@/components/faq";
 import { Footer } from "@/components/footer";
 
 export default function Home() {
@@ -16,13 +18,17 @@ export default function Home() {
       <Navbar />
       <BrandModal />
       <CreatorBadge />
+      
       <Hero />
       {/* <Testimonials /> */}
       <ProductShowcase />
-      <Unboxing />
+      <Moodboard />
       {/* <Ritual /> */}
-      <FAQ />
+      <LeisureWorld />
+      {/* <Unboxing /> */}
       <WaitlistSection />
+      <FAQ />
+      
       <Footer />
     </main>
   );

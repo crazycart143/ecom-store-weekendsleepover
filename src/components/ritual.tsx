@@ -54,7 +54,7 @@ export function Ritual() {
                         </div>
                     </div>
                     <h3 className="font-serif text-3xl mb-4 text-brand-red">{step.title}</h3>
-                    <p className="font-sans text-brand-cocoa leading-relaxed opacity-80">{step.desc}</p>
+                    <p className="font-sans text-brand-dark-pink leading-relaxed opacity-80">{step.desc}</p>
                 </motion.div>
             ))}
         </div>

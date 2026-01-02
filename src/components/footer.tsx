@@ -13,7 +13,7 @@ export function Footer() {
 
   return (
     <footer className="bg-white text-brand-red pt-24 pb-12 border-t border-brand-red/10">
-      <div className="container mx-auto px-4 md:px-8">
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
         
         {/* Minimalist Top Section */}
         <div className="flex flex-col md:flex-row justify-between items-start mb-24">

@@ -34,16 +34,16 @@ export function CountdownTimer({ theme = "light" }: { theme?: "light" | "dark" }
   }, []);
 
   return (
-    <div className="flex gap-4 md:gap-8 justify-center lg:justify-start mt-8">
+    <div className="flex gap-1 justify-center lg:justify-start mt-4">
       {Object.entries(timeLeft).map(([unit, value]) => (
         <div key={unit} className="flex flex-col items-center">
-          <div className="w-16 h-16 md:w-20 md:h-20 bg-white/20 backdrop-blur-md rounded-xl border border-white/30 shadow-lg flex items-center justify-center mb-2 relative overflow-hidden group">
+          <div className="w-9 h-9 md:w-12 md:h-12 bg-white/20 backdrop-blur-md rounded-lg border border-white/30 shadow-sm flex items-center justify-center mb-1 relative overflow-hidden group">
             <div className="absolute inset-0 bg-brand-red/10 group-hover:bg-brand-red/20 transition-colors" />
-            <span className={`font-serif text-2xl md:text-4xl font-bold relative z-10 ${theme === "dark" ? "text-brand-dark-pink" : "text-white"}`}>
+            <span className={`font-serif text-sm md:text-xl font-bold relative z-10 ${theme === "dark" ? "text-brand-dark-pink" : "text-white"}`}>
               {value.toString().padStart(2, '0')}
             </span>
           </div>
-          <span className={`text-[10px] uppercase tracking-widest font-bold opacity-80 ${theme === "dark" ? "text-brand-dark-pink" : "text-white"}`}>
+          <span className={`text-[5px] md:text-[7px] uppercase tracking-tighter font-black opacity-60 ${theme === "dark" ? "text-brand-dark-pink" : "text-white"}`}>
             {unit}
           </span>
         </div>

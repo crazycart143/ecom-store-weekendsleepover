@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Fraunces, Inter, Alex_Brush, Montserrat } from "next/font/google";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -10,6 +10,19 @@ const fraunces = Fraunces({
 
 const inter = Inter({
   variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const alexBrush = Alex_Brush({
+  weight: "400",
+  variable: "--font-alex-brush",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
   display: "swap",
 });
@@ -27,7 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${fraunces.variable} ${inter.variable} antialiased font-sans`}
+        className={`${fraunces.variable} ${inter.variable} ${alexBrush.variable} ${montserrat.variable} antialiased font-sans`}
       >
         {children}
       </body>

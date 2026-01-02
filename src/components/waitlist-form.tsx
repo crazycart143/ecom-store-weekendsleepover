@@ -25,28 +25,28 @@ export function WaitlistForm() {
       
       <motion.form 
         onSubmit={handleSubmit}
-        className="relative bg-white backdrop-blur-xl p-2 rounded-xl border border-white/50 shadow-xl flex items-center gap-2"
+        className="relative bg-white backdrop-blur-xl p-1.5 md:p-2 rounded-xl border border-white/50 shadow-xl flex items-center gap-1 md:gap-2"
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
       >
-        <div className="pl-4 text-brand-dark-pink">
-          <Sparkles size={20} />
+        <div className="pl-2 md:pl-4 text-brand-dark-pink shrink-0">
+          <Sparkles size={18} className="md:w-5 md:h-5" />
         </div>
         <input 
           type="email" 
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email to join the waitlist" 
-          className="flex-1 bg-transparent border-none outline-none text-brand-dark-pink placeholder:text-brand-dark-pink/50 font-medium h-12"
+          placeholder="Email address" 
+          className="flex-1 min-w-0 bg-transparent border-none outline-none text-brand-dark-pink placeholder:text-brand-dark-pink/30 md:placeholder:text-brand-dark-pink/50 font-medium h-10 md:h-12 text-sm md:text-base"
           required
         />
         <button 
           type="submit"
           disabled={status === "loading" || status === "success"}
-          className="bg-brand-dark-pink text-white px-6 py-3 rounded-lg font-bold font-sans uppercase text-xs tracking-widest hover:bg-brand-red transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2"
+          className="bg-brand-dark-pink text-white px-4 md:px-6 py-2.5 md:py-3 rounded-lg font-bold font-sans uppercase text-[10px] md:text-xs tracking-widest hover:bg-brand-red transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-1.5 md:gap-2 shrink-0"
         >
-          {status === "loading" ? "Joining..." : status === "success" ? "You're In!" : (
+          {status === "loading" ? "..." : status === "success" ? "In!" : (
             <>
               Join <ArrowRight size={14} />
             </>

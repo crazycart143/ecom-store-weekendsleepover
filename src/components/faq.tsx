@@ -74,7 +74,8 @@ export function FAQ() {
 
   return (
     <section className="py-24 bg-brand-cream/50">
-      <div className="container mx-auto px-4 md:px-8 max-w-4xl">
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
+        <div className="max-w-4xl mx-auto">
         <motion.div
            initial={{ opacity: 0, y: 30 }}
            whileInView={{ opacity: 1, y: 0 }}
@@ -107,6 +108,7 @@ export function FAQ() {
             />
           ))}
         </motion.div>
+        </div>
       </div>
     </section>
   );
