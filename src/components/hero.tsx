@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export function Hero() {
   return (
-    <section className="relative h-full w-full pt-28 md:pt-32 lg:pt-40 lg:pb-40 px-6 md:px-12 bg-brand-cream overflow-hidden">
+    <section className="relative h-full w-full pt-28 md:pt-32 lg:pt-32 lg:pb-40 px-6 md:px-12 bg-brand-cream overflow-hidden">
       {/* Editorial Layout Grid */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-center">
         
