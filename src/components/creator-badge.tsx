@@ -6,7 +6,7 @@ import { ExternalLink } from "lucide-react";
 export function CreatorBadge() {
   return (
     <motion.a
-      href="https://keanu.works"
+      href="https://keanuworksva.vercel.app/"
       target="_blank"
       rel="noopener noreferrer"
       initial={{ opacity: 0, y: 20, scale: 0.9 }}
