@@ -1,128 +1,176 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Star, Check, ShieldCheck, Truck, RotateCcw } from "lucide-react";
-import { CountdownTimer } from "@/components/countdown-timer";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { Star, ShieldCheck, Truck, RotateCcw, ArrowRight } from "lucide-react";
+import { CartSidebar } from "@/components/cart-sidebar";
 
 export function ProductShowcase() {
+  const [showSticky, setShowSticky] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [timeLeft, setTimeLeft] = useState({ days: 2, hours: 14, minutes: 33, seconds: 12 });
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (sectionRef.current) {
+        const rect = sectionRef.current.getBoundingClientRect();
+        // Show sticky when section header is out of view, hide when bottom is reached
+        setShowSticky(rect.top < 0 && rect.bottom > 100);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
+        if (prev.minutes > 0) return { ...prev, minutes: 59, seconds: 59 };
+        if (prev.hours > 0) return { ...prev, hours: 23, minutes: 59, seconds: 59 };
+        if (prev.days > 0) return { ...prev, days: prev.days - 1, hours: 23, minutes: 59, seconds: 59 };
+        return prev;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section 
-      className="py-32 bg-white overflow-hidden relative"
-      style={{ 
-        backgroundImage: 'linear-gradient(90deg, var(--color-brand-light-pink) 50%, transparent 50%)',
-        backgroundSize: '120px 100%'
-      }}
+      ref={sectionRef} 
+      className="py-16 md:py-42 relative bg-brand-background" 
+      id="shop"
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+      <div className="editorial-container">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-32">
           
-          {/* Left: Typography & Vertical Detail */}
-          <div className="lg:col-span-3 lg:pt-20 relative z-10">
-             <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="bg-white/40 backdrop-blur-sm p-6 rounded-2xl border border-white/20 inline-block lg:block"
-             >
-                <p className="font-title text-[10px] tracking-[0.5em] text-brand-dark-pink uppercase mb-8 [writing-mode:vertical-rl] rotate-180 hidden lg:inline-block h-48 opacity-60">
-                   Object Spotlight — 002
-                </p>
-                <h3 className="font-script text-5xl text-brand-red mb-4">the intention</h3>
-                <p className="font-sans text-sm text-brand-dark-pink leading-relaxed max-w-[200px]">
-                   An ode to the sun-soaked spirit of the French Riviera. Hefty organic weaves and a soft rebellion against the generic.
-                </p>
-             </motion.div>
+          {/* LEFT: Sticky Details (The "Control Panel") */}
+          <div className="lg:w-5/12 lg:h-[calc(100vh-100px)] lg:sticky lg:top-24 flex flex-col justify-center mb-12 lg:mb-0">
+            <motion.div
+               initial={{ opacity: 0, x: -20 }}
+               whileInView={{ opacity: 1, x: 0 }}
+               viewport={{ once: true }}
+               transition={{ duration: 0.8 }}
+               className="space-y-8 md:space-y-10"
+            >
+              {/* Header */}
+              <div>
+                 <div className="flex items-center gap-3 mb-4 md:mb-6">
+                    <span className="w-2 h-2 rounded-full bg-brand-primary animate-pulse" />
+                    <span className="font-sans text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-bold text-brand-primary">Limited Drop 001</span>
+                 </div>
+                 <h2 className="font-serif text-5xl md:text-6xl lg:text-8xl text-brand-primary leading-[0.85] mb-4 md:mb-6">
+                   the <br /> <span className="italic">weekend</span> <br /> set.
+                 </h2>
+                 <p className="font-sans text-xs md:text-sm md:text-base text-brand-foreground/60 leading-relaxed max-w-sm">
+                   The official uniform of doing absolutely nothing. A heavy-weight organic terry robe paired with our signature skincare headband.
+                 </p>
+              </div>
+
+              {/* Price & Timer */}
+              <div className="flex items-end gap-6 md:gap-8 border-b border-brand-foreground/10 pb-6 md:pb-8">
+                 <div>
+                    <p className="font-sans text-[9px] md:text-[10px] uppercase tracking-widest text-brand-foreground/40 mb-1">Bundle Price</p>
+                    <p className="font-serif text-3xl md:text-4xl text-brand-primary">$165</p>
+                 </div>
+                 <div className="h-8 md:h-10 w-px bg-brand-foreground/10" />
+                 <div>
+                    <p className="font-sans text-[9px] md:text-[10px] uppercase tracking-widest text-brand-foreground/40 mb-1">Drop Closes In</p>
+                    <div className="flex gap-1 font-sans text-xs md:text-sm font-bold text-brand-primary">
+                       <span>{String(timeLeft.days).padStart(2, '0')}d</span> : 
+                       <span>{String(timeLeft.hours).padStart(2, '0')}h</span> : 
+                       <span>{String(timeLeft.minutes).padStart(2, '0')}m</span>
+                    </div>
+                 </div>
+              </div>
+
+              {/* Actions */}
+              <div className="space-y-4">
+                 <button 
+                   onClick={() => setIsCartOpen(true)}
+                   className="w-full bg-brand-foreground text-brand-background py-4 md:py-5 rounded-full font-sans text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold hover:bg-brand-primary transition-colors duration-300 flex items-center justify-center gap-4 group"
+                 >
+                   <span>Add to Bag</span>
+                   <span className="w-1.5 h-1.5 rounded-full bg-brand-background group-hover:bg-white transition-colors" />
+                 </button>
+                 <p className="text-center font-sans text-[9px] md:text-[10px] text-brand-foreground/40 uppercase tracking-widest">
+                   Free shipping on orders over $200
+                 </p>
+              </div>
+
+              {/* Details List */}
+              <div className="space-y-3 md:space-y-4 pt-2 md:pt-4">
+                 {[
+                   { label: "Fabric", val: "100% Sustainable Cotton Terry" },
+                   { label: "Fit", val: "Girly, Petite, Bright & Fun" },
+                   { label: "Care", val: "Machine wash cold, tumble dry low" }
+                 ].map((item, i) => (
+                   <div key={i} className="flex justify-between items-baseline group cursor-default">
+                      <span className="font-sans text-[10px] md:text-xs uppercase tracking-widest text-brand-foreground/50 group-hover:text-brand-primary transition-colors">{item.label}</span>
+                      <span className="font-serif text-base md:text-lg italic text-brand-foreground text-right ml-4">{item.val}</span>
+                   </div>
+                 ))}
+              </div>
+
+            </motion.div>
           </div>
 
-          {/* Center: Main Image (Polaroid style) */}
-          <div className="lg:col-span-5">
-             <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="relative z-10 p-4 bg-white shadow-2xl rotate-1"
-             >
-                <div className="relative aspect-[4/5] overflow-hidden">
-                   <Image 
-                     src="/images/product-image2.webp" 
-                     alt="Product Spotlight"
-                     fill
-                     className="object-cover"
-                   />
-                </div>
-                <div className="mt-8 pb-4 text-center">
-                   <p className="font-title text-[10px] tracking-[1em] text-brand-dark-pink/40 uppercase">WEEKEND SLEEPOVER</p>
-                </div>
-             </motion.div>
-          </div>
-
-          {/* Right: Selection & Details */}
-          <div className="lg:col-span-4 lg:pt-20 relative z-10">
-             <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="bg-white/60 backdrop-blur-md p-6 md:p-10 rounded-[2.5rem] border border-white/40 shadow-xl"
-             >
-                <div className="flex items-center gap-4 mb-4">
-                   <span className="font-serif text-3xl text-brand-dark-pink">$120</span>
-                   <span className="w-12 h-[1px] bg-brand-pink" />
-                   <span className="font-title text-[10px] tracking-widest text-brand-red font-bold uppercase">Limited Drop</span>
-                </div>
-
-                <h2 className="font-serif text-5xl md:text-6xl text-brand-dark-pink mb-8 leading-none">
-                  THE <br /><span className="italic">WEEKEND</span> SET
-                </h2>
-
-                <div className="space-y-6 mb-12">
-                   <div className="flex items-start gap-4">
-                      <span className="font-title text-[10px] text-brand-red font-black">01.</span>
-                      <p className="font-sans text-sm text-brand-dark-pink font-medium capitalize">Signature Riviera Robe (Organic Terry Cloth)</p>
-                   </div>
-                   <div className="flex items-start gap-4">
-                      <span className="font-title text-[10px] text-brand-red font-black">02.</span>
-                      <p className="font-sans text-sm text-brand-dark-pink font-medium capitalize">Matching Skincare Headband (The Bundle Exclusive)</p>
-                   </div>
-                   <div className="flex items-start gap-4">
-                      <span className="font-title text-[10px] text-brand-red font-black">03.</span>
-                      <p className="font-sans text-sm text-brand-dark-pink font-medium capitalize">Designed for Coffee, Skincare & Journaling Rituals</p>
-                   </div>
-                </div>
-
-                {/* Urgency - Minimal Style */}
-                <div className="mb-10 p-4 md:p-6 border border-brand-red/10 bg-brand-pink/5 rounded-sm">
-                   <p className="font-title text-[7px] md:text-[8px] tracking-[0.3em] text-brand-red uppercase mb-4 text-center lg:text-left">Launching in limited quantities</p>
-                   <CountdownTimer theme="dark" />
-                </div>
-
-                <div className="flex flex-col gap-4">
-                   <button className="w-full bg-brand-dark-pink text-white py-4 font-title text-[10px] uppercase tracking-[0.3em] hover:bg-brand-red transition-colors">
-                      Pre-order Now
-                   </button>
-                   <button className="w-full border border-brand-dark-pink/10 py-4 font-title text-[10px] uppercase tracking-[0.3em] hover:bg-brand-cream transition-colors">
-                      Discover the Ritual
-                   </button>
-                </div>
-                
-                <div className="mt-12 p-4 border-l-2 border-brand-pink bg-brand-pink/5">
-                   <p className="font-sans text-[10px] text-brand-dark-pink italic leading-relaxed">
-                      DESIGN NOTE: Reclaiming the luxury of hotel mornings without the scratchy textures. A bold, striped sanctuary for your morning coffee and daily ink.
-                   </p>
-                </div>
-                
-                <div className="mt-8 flex justify-between items-center opacity-60 text-brand-dark-pink">
-                   <Truck size={16} />
-                   <ShieldCheck size={16} />
-                   <RotateCcw size={16} />
-                   <Star size={16} />
-                </div>
-             </motion.div>
+          {/* RIGHT: Scrollable Gallery (The "Editorial Spread") */}
+          <div className="lg:w-7/12 space-y-12 md:space-y-24 pt-0 lg:pt-0">
+             {[
+               { src: "/images/robe14.png", caption: "Deep hooded design for maximum privacy." },
+             ].map((img, i) => (
+               <motion.div 
+                 key={i}
+                 initial={{ opacity: 0, y: 50 }}
+                 whileInView={{ opacity: 1, y: 0 }}
+                 viewport={{ margin: "-10% 0px -10% 0px" }}
+                 transition={{ duration: 1 }}
+               >
+                 <div className="relative aspect-[3/4] w-full overflow-hidden bg-brand-secondary/20 mb-3 md:mb-4 rounded-[1px]">
+                    <Image 
+                      src={img.src} 
+                      alt="Product Detail" 
+                      fill 
+                      className="object-cover hover:scale-105 transition-transform duration-[1.5s]" 
+                    />
+                 </div>
+                 <p className="font-sans text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-brand-foreground/40 text-center">
+                   fig. 0{i+1} — {img.caption}
+                 </p>
+               </motion.div>
+             ))}
           </div>
 
         </div>
       </div>
+
+      <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+
+      {/* Sticky Add To Cart (Mobile/Scroll) */}
+      <AnimatePresence>
+        {showSticky && (
+          <motion.div
+            initial={{ y: 100 }}
+            animate={{ y: 0 }}
+            exit={{ y: 100 }}
+            className="fixed bottom-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-t border-brand-foreground/5 px-5 py-3 md:px-6 md:py-4 flex items-center justify-between shadow-[0_-10px_40px_rgba(0,0,0,0.05)]"
+          >
+            <div className="flex flex-col">
+              <span className="font-serif italic text-base md:text-lg text-brand-primary">the weekend set</span>
+              <span className="text-[9px] md:text-[10px] font-sans text-brand-foreground/40 tracking-widest uppercase">$165 / bundle</span>
+            </div>
+            <button 
+               onClick={() => setIsCartOpen(true)}
+               className="bg-brand-primary text-white py-2.5 px-6 md:py-3 md:px-8 rounded-full font-sans text-[9px] md:text-[10px] uppercase tracking-widest font-bold hover:bg-brand-primary/90 transition-colors"
+            >
+              Add to Bag
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

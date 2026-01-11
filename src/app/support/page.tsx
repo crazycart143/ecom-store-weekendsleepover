@@ -3,25 +3,25 @@
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { motion } from "framer-motion";
-import { Plus, Minus, Send } from "lucide-react";
+import { Plus, Minus, Send, ArrowRight } from "lucide-react";
 import { useState } from "react";
 
 const faqs = [
   {
-    q: "How long does shipping take?",
-    a: "We ship all orders within 24 hours. Domestic shipping typically takes 2-4 business days."
+    q: "how long does shipping take?",
+    a: "we ship all orders within 24 hours. domestic shipping typically takes 2-4 business days."
   },
   {
-    q: "What is the return policy?",
-    a: "We have a 30-day glow guarantee. If you don't love it, return it for a full refund. No hard feelings."
+    q: "what is the return policy?",
+    a: "we have a 30-day glow guarantee. if you don't love it, return it for a full refund. no hard feelings."
   },
   {
-    q: "Does the headband fit all sizes?",
-    a: "Yes! Our headbands are made with super-stretchy cloud elastic designed to fit everyone."
+    q: "does the headband fit all sizes?",
+    a: "yes! our headbands are made with super-stretchy cloud elastic designed to fit everyone."
   },
   {
-    q: "Do you ship internationally?",
-    a: "We currently ship to the US, Canada, UK, and Australia. More locations coming soon!"
+    q: "do you ship internationally?",
+    a: "we currently ship to the us, canada, uk, and australia. more locations coming soon!"
   }
 ];
 
@@ -29,10 +29,10 @@ export default function Support() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   return (
-    <main className="min-h-screen bg-brand-light-pink selection:bg-brand-red selection:text-white">
+    <main className="min-h-screen bg-brand-background selection:bg-brand-primary selection:text-brand-background">
       <Navbar />
       
-      <div className="pt-32 pb-20 container mx-auto px-4 md:px-8">
+      <div className="pt-32 pb-20 editorial-container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
           
           {/* FAQ Section */}
@@ -41,26 +41,26 @@ export default function Support() {
              animate={{ opacity: 1, x: 0 }}
              transition={{ duration: 0.6 }}
           >
-            <h1 className="font-serif text-5xl text-brand-red mb-8">FAQ</h1>
+            <h1 className="font-serif text-5xl text-brand-foreground mb-12 lowercase">faq</h1>
             <div className="space-y-4">
               {faqs.map((faq, i) => (
                 <div 
                   key={i} 
-                  className={`bg-white/40 backdrop-blur-sm rounded-xl overflow-hidden transition-all duration-300 ${openFaq === i ? "bg-white/60 shadow-lg" : "hover:bg-white/50"}`}
+                  className={`border-b border-brand-foreground/5 transition-all duration-300 ${openFaq === i ? "pb-6" : ""}`}
                 >
                   <button 
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    className="w-full flex items-center justify-between p-6 text-left"
+                    className="w-full flex items-center justify-between py-6 text-left group"
                   >
-                    <span className="font-serif text-xl text-brand-dark-pink">{faq.q}</span>
-                    <span className="text-brand-red">
-                      {openFaq === i ? <Minus size={20} /> : <Plus size={20} />}
+                    <span className="font-serif text-xl text-brand-foreground group-hover:italic transition-all lowercase">{faq.q}</span>
+                    <span className="text-brand-primary">
+                      {openFaq === i ? <Minus size={20} strokeWidth={1} /> : <Plus size={20} strokeWidth={1} />}
                     </span>
                   </button>
                   <div 
-                    className={`px-6 overflow-hidden transition-all duration-300 ${openFaq === i ? "pb-6 max-h-40 opacity-100" : "max-h-0 opacity-0"}`}
+                    className={`overflow-hidden transition-all duration-300 ${openFaq === i ? "max-h-40 opacity-100" : "max-h-0 opacity-0"}`}
                   >
-                    <p className="text-brand-cocoa leading-relaxed">{faq.a}</p>
+                    <p className="text-brand-foreground/60 leading-relaxed font-sans text-sm lowercase">{faq.a}</p>
                   </div>
                 </div>
               ))}
@@ -73,22 +73,22 @@ export default function Support() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h1 className="font-serif text-5xl text-brand-red mb-8">Contact Us</h1>
-            <form className="bg-white/70 backdrop-blur-xl p-8 rounded-3xl shadow-xl space-y-6 border border-white">
-               <div>
-                 <label className="block text-brand-dark-pink font-bold text-xs uppercase tracking-widest mb-2">Name</label>
-                 <input type="text" className="w-full bg-brand-light-pink/50 border border-brand-pink rounded-lg p-3 focus:outline-none focus:border-brand-red transition-colors" placeholder="Your name" />
+            <h1 className="font-serif text-5xl text-brand-foreground mb-12 lowercase">contact us</h1>
+            <form className="space-y-8">
+               <div className="space-y-2">
+                 <label className="block text-brand-foreground font-bold text-[10px] uppercase tracking-widest">name</label>
+                 <input type="text" className="w-full bg-transparent border-b border-brand-foreground/20 py-3 focus:outline-none focus:border-brand-primary transition-colors font-serif italic text-xl placeholder:text-brand-foreground/20 text-brand-foreground" placeholder="your name" />
                </div>
-               <div>
-                 <label className="block text-brand-dark-pink font-bold text-xs uppercase tracking-widest mb-2">Email</label>
-                 <input type="email" className="w-full bg-brand-light-pink/50 border border-brand-pink rounded-lg p-3 focus:outline-none focus:border-brand-red transition-colors" placeholder="your@email.com" />
+               <div className="space-y-2">
+                 <label className="block text-brand-foreground font-bold text-[10px] uppercase tracking-widest">email</label>
+                 <input type="email" className="w-full bg-transparent border-b border-brand-foreground/20 py-3 focus:outline-none focus:border-brand-primary transition-colors font-serif italic text-xl placeholder:text-brand-foreground/20 text-brand-foreground" placeholder="your email" />
                </div>
-               <div>
-                 <label className="block text-brand-dark-pink font-bold text-xs uppercase tracking-widest mb-2">Message</label>
-                 <textarea rows={4} className="w-full bg-brand-light-pink/50 border border-brand-pink rounded-lg p-3 focus:outline-none focus:border-brand-red transition-colors" placeholder="How can we help?" />
+               <div className="space-y-2">
+                 <label className="block text-brand-foreground font-bold text-[10px] uppercase tracking-widest">message</label>
+                 <textarea rows={4} className="w-full bg-transparent border-b border-brand-foreground/20 py-3 focus:outline-none focus:border-brand-primary transition-colors font-serif italic text-xl placeholder:text-brand-foreground/20 text-brand-foreground resize-none" placeholder="how can we help?" />
                </div>
-               <button className="w-full bg-brand-red text-white py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-brand-dark-pink transition-all flex items-center justify-center gap-2">
-                 Send Message <Send size={16} />
+               <button className="w-full bg-brand-foreground text-brand-background py-6 rounded-full font-sans text-[11px] uppercase tracking-[0.2em] font-bold hover:bg-brand-foreground/90 transition-all flex items-center justify-center gap-3">
+                 send message <ArrowRight size={14} />
                </button>
             </form>
           </motion.div>

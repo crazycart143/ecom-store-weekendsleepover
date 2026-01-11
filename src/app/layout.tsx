@@ -1,35 +1,30 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter, Alex_Brush, Montserrat } from "next/font/google";
+import { Libre_Baskerville, Inter } from "next/font/google";
 import "./globals.css";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const serif = Libre_Baskerville({
+  variable: "--font-serif-editor",
   subsets: ["latin"],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
   display: "swap",
+  preload: true,
+  fallback: ['Georgia', 'serif'],
 });
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const alexBrush = Alex_Brush({
-  weight: "400",
-  variable: "--font-alex-brush",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
+const sans = Inter({
+  variable: "--font-sans-main",
   subsets: ["latin"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "The Weekend Set | Weekend Sleepover",
-  description: "The ultimate weekend set. Embrace your glow.",
+  title: "Weekend Sleepover | Life of Leisure",
+  description: "A luxury leisure, lifestyle-driven brand for your weekend rituals. Home of The Weekend Set.",
+  icons: {
+    icon: '/logo-abbreviation.ico',
+    apple: '/logo-abbreviation.ico'
+  }
 };
 
 export default function RootLayout({
@@ -40,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${fraunces.variable} ${inter.variable} ${alexBrush.variable} ${montserrat.variable} antialiased font-sans`}
+        className={`${serif.variable} ${sans.variable} antialiased font-serif bg-brand-background text-brand-foreground`}
       >
         {children}
       </body>

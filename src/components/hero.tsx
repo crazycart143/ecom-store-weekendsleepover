@@ -1,113 +1,129 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { WaitlistForm } from "@/components/waitlist-form";
 import Image from "next/image";
+import { useState, useRef, useEffect } from "react";
 
 export function Hero() {
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  
+  const videos = [
+    // "/videos/video1.mp4",
+    "/videos/video2.mp4",
+    "/videos/video3.mp4"
+  ];
+
+  const handleVideoEnd = () => {
+    setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videos.length);
+  };
+
+  useEffect(() => {
+    // Ensure video plays when the source changes
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play().catch(error => {
+        console.log("Video autoplay prevented:", error);
+      });
+    }
+  }, [currentVideoIndex]);
+
   return (
-    <section className="relative h-full w-full pt-28 md:pt-32 lg:pt-32 lg:pb-40 px-6 md:px-12 bg-brand-cream overflow-hidden">
-      {/* Editorial Layout Grid */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-center">
-        
-        {/* Left Column: Typography */}
-        <div className="relative z-20">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+    <section className="relative h-[500px] md:h-[700px] lg:h-screen max-h-[800px] pb-12 lg:pb-8 w-full bg-brand-foreground overflow-hidden">
+      {/* Background Video */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <motion.div
+           initial={{ scale: 1.1 }}
+           animate={{ scale: 1 }}
+           transition={{ duration: 2, ease: "easeOut" }}
+           className="w-full h-full relative"
+        >
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            playsInline
+            poster="/images/filler13.png"
+            className="absolute inset-0 w-full h-full object-cover"
+            onEnded={handleVideoEnd}
           >
-            <span className="font-script text-3xl md:text-4xl text-brand-red block mb-2 md:mb-4">the limited launch</span>
-            <h1 className="font-serif text-5xl md:text-8xl lg:text-8xl xl:text-9xl text-brand-dark-pink leading-[0.9] tracking-tighter mb-6 md:mb-8">
-              WEEKEND <br />
-              <span className="italic">SET</span>
-            </h1>
-          </motion.div>
+            <source src={videos[currentVideoIndex]} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          {/* Dark Overlay Filter */}
+          <div className="absolute inset-0 bg-black/35" />
+          {/* Gradient Overlay for text readability */}
+          <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent opacity-90" />
+        </motion.div>
+      </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="max-w-md"
-          >
-            <p className="font-sans text-base md:text-lg text-brand-dark-pink/80 italic mb-6 md:mb-8 border-l-2 border-brand-pink pl-6">
-             Introducing the bundle for your slow mornings. Our signature organic terry robe + matching skincare headband.
-            </p>
-            
-            <div className="space-y-6">
-              <p className="font-sans text-sm tracking-widest uppercase font-bold text-brand-dark-pink/60">
-                Exclusive First Access
-              </p>
-              <WaitlistForm />
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Right Column: Imagery */}
-        <div className="relative">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{ duration: 1 }}
-            className="hidden lg:block relative z-10"
-          >
-            <div className="polaroid aspect-[3/2] relative scale-110">
-              <div className="tape" />
-              <Image 
-                src="/images/user-hero-beach.jpg"
-                alt="Retro Beach Lifestyle"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-          </motion.div>
-
-          {/* Floating Element 1 - Doodle / Star */}
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="hidden lg:block absolute -top-[450px] lg:-top-20 -right-22 w-32 h-32 opacity-20 pointer-events-none"
-          >
-             <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 0L55.9 33.3L89.4 18.2L66.7 44.1L100 50L66.7 55.9L89.4 81.8L55.9 66.7L50 100L44.1 66.7L10.6 81.8L33.3 55.9L0 50L33.3 44.1L10.6 18.2L44.1 33.3L50 0Z" fill="var(--color-brand-red)" />
-             </svg>
-          </motion.div>
-
-          {/* Floating Element 2 - Polaroid Overlay */}
-          <motion.div
-             initial={{ opacity: 0, x: 50, rotate: 5 }}
-             animate={{ opacity: 1, x: 0, rotate: 8 }}
-             transition={{ delay: 0.6, duration: 0.8 }}
-             className="hidden lg:block absolute -bottom-10 -left-10 w-48 aspect-square bg-white p-2 shadow-xl z-20 hidden"
-          >
-             <div className="relative w-full h-full bg-brand-light-pink overflow-hidden">
-                <Image 
-                  src="/images/contact-form-image.webp"
-                  alt="Detail"
-                  fill
-                  className="object-cover grayscale"
-                />
-                <div className="absolute inset-0 bg-brand-pink/20 mix-blend-multiply" />
-             </div>
-             <p className="font-script text-brand-dark-pink text-center mt-2 text-lg">01. Rituals</p>
-          </motion.div>
+      {/* Editorial Label (Book/Magazine Feel) */}
+      <div className="absolute top-24 md:top-40 left-6 md:left-12 z-20">
+        <div className="flex items-center gap-4">
+          <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-[0.3em] text-white/80 font-bold border border-white/30 px-2 py-0.5 md:px-3 md:py-1 bg-black/10 backdrop-blur-md">
+            Vol. 01
+          </span>
+          <span className="font-serif italic text-white/90 text-xs md:text-base">
+            The Debut
+          </span>
         </div>
       </div>
 
-      {/* Magazine Detail - Page Number / Edition */}
-      <div className="absolute bottom-8 left-8 hidden lg:block">
-        <p className="font-title text-[10px] tracking-[0.5em] text-brand-dark-pink/40 uppercase">
-          Edition No. 04 / Page 12
-        </p>
+      {/* Content */}
+      <div className="relative z-10 w-full h-full flex flex-col justify-end pb-12 md:pb-64 editorial-container">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-xl"
+        >
+          <h1 className="font-serif text-5xl md:text-8xl lg:text-9xl text-white leading-[0.85] mb-6 md:mb-8 lowercase tracking-tight">
+            life of <br />
+            <span className="italic font-light ml-4 md:ml-8">leisure.</span>
+          </h1>
+          
+          <p className="font-sans text-xs md:text-base text-white/90 mb-8 md:mb-10 max-w-sm md:max-w-lg leading-relaxed md:leading-loose lowercase pl-3 border-l-2 border-white/20 ml-1 py-1 pr-4">
+            meet the weekend set. a signature robe paired with a matching skincare headband. designed for slow mornings, vanity rituals, and the luxury of unhurried time.
+          </p>
+
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="bg-white text-brand-foreground font-sans text-[9px] md:text-[10px] tracking-[0.25em] uppercase px-8 md:px-10 py-3.5 md:py-4 rounded-sm shadow-xl transition-all hover:bg-brand-secondary font-bold"
+            onClick={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })}
+          >
+            join first drop
+          </motion.button>
+        </motion.div>
       </div>
+
+      {/* "Who it's for" - The Muses / Community (Bottom Right) */}
+      {/* <div className="absolute bottom-6 right-6 md:bottom-24 md:right-12 z-20">
+         <motion.div 
+           initial={{ opacity: 0, x: 20 }}
+           animate={{ opacity: 1, x: 0 }}
+           transition={{ delay: 1, duration: 1 }}
+           className="flex flex-col gap-4 items-end scale-75 md:scale-100 origin-bottom-right"
+         >
+            <div className="flex gap-4">
+               {['/images/robe5.png', '/images/robe12.png', '/images/robe16.png'].map((src, i) => (
+                 <div key={i} className="w-36 h-48 bg-white/10 backdrop-blur-md border border-white/20 p-1.5 transform hover:-translate-y-2 transition-transform duration-500 rounded-sm relative group">
+
+                    <div className="w-full h-full relative overflow-hidden bg-brand-secondary/20">
+                      <Image 
+                        src={src}
+                        alt="Guest"
+                        fill
+                        className="object-cover opacity-90 hover:opacity-100 transition-opacity"
+                      />
+                    </div>
+                 </div>
+               ))}
+            </div>
+         </motion.div>
+      </div> */}
       
-      {/* Vertical Side Text */}
-      <div className="absolute top-1/2 -right-12 -translate-y-1/2 rotate-90 hidden xl:block">
-        <p className="font-title text-[10px] tracking-[0.5em] text-brand-dark-pink/40 uppercase whitespace-nowrap">
-          The Art of Living Slow • Weekend Sleepover • Est. 2024
-        </p>
-      </div>
+      {/* Scroll indicator - Optional, can keep or remove. Removing for cleaner look matching Rhode */}
     </section>
   );
 }

@@ -1,177 +1,154 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
+import Script from "next/script";
+import { ArrowUpRight } from "lucide-react";
 
-const slides = [
+/**
+ * 1. MOCK DATA - REPLICATING THE "CLEAN" BOARD LOOK
+ * Using your project's local assets to ensure perfect style.
+ */
+const boards = [
   {
-    src: "/images/user-hero-beach.jpg",
-    title: "Shoreline",
-    label: "01 / ARCHIVE"
+    title: "Breakfast in Bed",
+    pins: "80 Pins",
+    main: "/images/robe7.png",
+    sub1: "/images/filler13.png",
+    sub2: "/images/filler14.jpg",
   },
   {
-    src: "/images/scrapbook-image2.webp",
-    title: "Morning Mist",
-    label: "02 / ARCHIVE"
+    title: "French Riviera",
+    pins: "81 Pins",
+    main: "/images/filler72.jpg",
+    sub1: "/images/robe9.png",
+    sub2: "/images/robe12.png",
   },
   {
-    src: "/images/user-ambient-beach.jpg",
-    title: "Golden Hour",
-    label: "03 / ARCHIVE"
+    title: "Weekend Moods",
+    pins: "49 Pins",
+    main: "/images/filler70.jpg",
+    sub1: "/images/filler73.jpg",
+    sub2: "/images/filler75.jpg",
   },
   {
-    src: "/images/scrapbook-image6.jpg",
-    title: "The Object",
-    label: "04 / ARCHIVE"
+    title: "Home of Leisure",
+    pins: "74 Pins",
+    main: "/images/robe8.png",
+    sub1: "/images/filler17.png",
+    sub2: "/images/robe11.png",
   },
   {
-    src: "/images/scrapbook-image7.jpg",
-    title: "Soft Focus",
-    label: "05 / ARCHIVE"
+    title: "Parisian Weekends",
+    pins: "56 Pins",
+    main: "/images/filler74.jpg",
+    sub1: "/images/filler18.JPG",
+    sub2: "/images/filler15.jpg",
+  },
+  {
+    title: "Stripes of Leisure",
+    pins: "32 Pins",
+    main: "/images/stripe-bag1.png",
+    sub1: "/images/stripe-bag2.png",
+    sub2: "/images/stripe-bag3.png",
   }
 ];
 
-export function LeisureWorld() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  // Limit how far we can scroll based on screen size
-  // On desktop we show ~2.5 slides, so we stop earlier to avoid empty space
-  const maxIndex = isMobile ? slides.length - 1 : slides.length - 3;
-  const safeIndex = Math.min(activeIndex, maxIndex);
-
-  const nextSlide = useCallback(() => {
-    setActiveIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  }, [maxIndex]);
-
-  useEffect(() => {
-    const timer = setInterval(nextSlide, 5000);
-    return () => clearInterval(timer);
-  }, [nextSlide]);
-
+/**
+ * Custom Pinterest Board Component
+ * Recreates the "one large, two small" collage cover UI
+ */
+function PinterestBoard({ board }: { board: typeof boards[0] }) {
   return (
-    <div className="bg-white">
-      {/* Visual Diary Slider */}
-      <section className="pt-32 pb-20 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 mb-12 flex justify-between items-end">
-          <div>
-            <span className="font-title text-[10px] tracking-[0.5em] text-brand-dark-pink/40 uppercase mb-4 block">Visual Diary</span>
-            <h2 className="font-serif text-5xl md:text-6xl text-brand-dark-pink">THE WEEKEND <br /> <span className="italic">WORLD</span></h2>
+    <div className="group cursor-pointer">
+      {/* Board Cover Collage */}
+      <div className="aspect-[4/2.8] w-full flex gap-[2px] rounded-[24px] overflow-hidden border border-brand-foreground/5 mb-4 group-hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] group-hover:-translate-y-1 transition-all duration-700 bg-brand-secondary/5">
+        {/* Main Large Image */}
+        <div className="w-[66%] relative">
+          <Image 
+            src={board.main} 
+            alt={board.title} 
+            fill 
+            className="object-cover transition-transform duration-[3s] group-hover:scale-110" 
+          />
+        </div>
+        {/* Sub Stack */}
+        <div className="flex-1 flex flex-col gap-[2px]">
+          <div className="flex-1 relative">
+            <Image src={board.sub1} alt={board.title} fill className="object-cover" />
           </div>
-          <div className="hidden md:block">
-            <button className="font-title text-[10px] tracking-widest text-brand-dark-pink border-b border-brand-dark-pink/20 pb-2 uppercase hover:text-brand-red hover:border-brand-red transition-all">
-              View Social Journal
-            </button>
+          <div className="flex-1 relative">
+            <Image src={board.sub2} alt={board.title} fill className="object-cover" />
           </div>
         </div>
-
-        <div className="relative">
-          <div className="overflow-visible px-4 md:px-12">
-            <motion.div 
-              className="flex gap-6 md:gap-8"
-              animate={{ x: isMobile ? `-${safeIndex * 85}vw` : `-${safeIndex * 482}px` }}
-              transition={{ type: "spring", stiffness: 150, damping: 25 }}
-            >
-              {slides.map((slide, i) => (
-                <motion.div 
-                  key={i}
-                  className="flex-shrink-0 w-[80vw] lg:w-[450px]"
-                  whileHover={{ y: -10 }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
-                >
-                  <div className="relative aspect-[3/4] overflow-hidden rounded-2xl mb-6 shadow-2xl">
-                    <Image 
-                      src={slide.src} 
-                      alt={slide.title}
-                      fill
-                      className="object-cover transition-transform duration-1000 hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark-pink/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500" />
-                  </div>
-                  <div className="flex justify-between items-baseline px-2">
-                    <h3 className="font-serif text-2xl text-brand-dark-pink">{slide.title}</h3>
-                    <span className="font-title text-[8px] tracking-widest text-brand-dark-pink/60 uppercase">{slide.label}</span>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Pagination Circles */}
-          <div className="flex justify-center gap-3 mt-12">
-            {Array.from({ length: maxIndex + 1 }).map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveIndex(i)}
-                className={`w-2 h-2 rounded-full transition-all duration-500 ${
-                  safeIndex === i 
-                    ? "bg-brand-red w-8" 
-                    : "bg-brand-dark-pink/20 hover:bg-brand-dark-pink/40"
-                }`}
-                aria-label={`Go to slide ${i + 1}`}
-              />
-            ))}
-          </div>
+      </div>
+      {/* Board Info */}
+      <div className="px-1 flex justify-between items-start">
+        <div>
+          <h3 className="font-sans font-bold text-sm text-brand-foreground group-hover:text-brand-primary transition-colors lowercase">{board.title}</h3>
+          <p className="font-sans text-[11px] text-brand-foreground/40 mt-0.5 lowercase">{board.pins} • curated</p>
         </div>
-      </section>
-
-      {/* Life of Leisure Hero Section */}
-      <section className="pb-32 bg-white pt-12 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="flex flex-col md:flex-row items-center border border-brand-dark-pink/10 rounded-[2rem] overflow-hidden bg-white shadow-sm">
-            
-            {/* Left: Content */}
-            <div className="w-full md:w-1/2 p-8 md:p-24 flex flex-col justify-center items-start text-left">
-              <motion.h2 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="font-script text-5xl md:text-7xl text-brand-dark-pink mb-6 md:mb-8"
-              >
-                " Life of Leisure "
-              </motion.h2>
-              <motion.p 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                className="font-serif text-lg md:text-2xl text-brand-dark-pink/80 leading-relaxed max-w-sm mb-8 md:mb-12"
-              >
-                Where heavy organic terry cloth feels like a love language, routines are cinematic rituals, and your morning coffee is part of the scene.
-              </motion.p>
-              <motion.button 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="px-12 py-3 border border-brand-dark-pink rounded-full font-title text-[10px] tracking-[0.3em] uppercase text-brand-dark-pink hover:bg-brand-dark-pink hover:text-white transition-all duration-500"
-              >
-                Escape Here
-              </motion.button>
-            </div>
-
-            {/* Right: Image */}
-            <div className="w-full md:w-1/2 relative min-h-[400px] md:min-h-[700px]">
-              <Image 
-                src="/images/brand-modal-image.webp" 
-                alt="Life of Leisure"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
+        <div className="w-8 h-8 rounded-full border border-brand-foreground/5 flex items-center justify-center text-brand-foreground/20 group-hover:border-brand-primary group-hover:text-brand-primary transition-all">
+          <ArrowUpRight size={14} />
         </div>
-      </section>
+      </div>
     </div>
   );
 }
+
+export function LeisureWorld() {
+  return (
+    <section className="py-24 md:py-40 bg-brand-background overflow-hidden relative">
+      <Script 
+        async 
+        defer 
+        src="//assets.pinterest.com/js/pinit.js" 
+        strategy="lazyOnload"
+      />
+      
+      <div className="editorial-container">
+        
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 gap-8 px-4 md:px-0">
+          <div className="max-w-2xl">
+            <span className="font-sans text-[10px] md:text-[11px] tracking-[0.4em] text-brand-primary uppercase mb-6 block font-bold">
+              leisure world
+            </span>
+            <h2 className="font-serif text-5xl md:text-7xl text-brand-foreground leading-[0.9] lowercase">
+              curated for <br/>
+              <span className="italic text-brand-primary font-light">the slow life.</span>
+            </h2>
+          </div>
+          <motion.a 
+            href="https://www.pinterest.com" // Replace with actual Pinterest Profile
+            target="_blank"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-3 bg-white px-6 py-4 rounded-full shadow-sm border border-brand-foreground/5 font-sans text-[11px] font-bold uppercase tracking-widest text-brand-foreground hover:bg-brand-secondary transition-colors"
+          >
+            Follow on Pinterest
+            <div className="w-5 h-5 rounded-full bg-[#E60023] flex items-center justify-center text-white">
+              <span className="text-[10px] leading-none mb-0.5">P</span>
+            </div>
+          </motion.a>
+        </div>
+
+        {/* Clean Board Grid (Mocking her actual pins for better performance/style) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 px-4 md:px-0 mb-32">
+          {boards.map((board, index) => (
+            <motion.div
+              key={board.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <PinterestBoard board={board} />
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+

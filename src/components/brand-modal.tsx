@@ -9,14 +9,11 @@ export function BrandModal() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    // Check if user has already seen the modal
     const hasSeenModal = localStorage.getItem("hasSeenBrandModal");
-    
     if (!hasSeenModal) {
-      // Show modal after 2 seconds on first visit
       const timer = setTimeout(() => {
         setIsOpen(true);
-      }, 2000);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, []);
@@ -31,77 +28,73 @@ export function BrandModal() {
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={handleClose}
-              className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm"
+              className="fixed inset-0 z-100 bg-brand-foreground/40 backdrop-blur-sm"
             />
             
-            {/* Modal Container */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="fixed inset-0 z-[101] flex items-center justify-center p-4 pointer-events-none"
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="fixed inset-0 z-101 flex items-center justify-center p-4 pointer-events-none"
             >
-              <div className="bg-white pointer-events-auto rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col md:flex-row shadow-2xl relative">
+              <div className="bg-brand-background pointer-events-auto rounded-sm w-full max-w-4xl overflow-hidden flex flex-col md:flex-row shadow-3xl relative">
                 
-                {/* Close Button */}
                 <button 
                   onClick={handleClose}
-                  className="absolute top-4 right-4 z-10 p-2 bg-white/50 hover:bg-white rounded-full transition-colors"
-                  aria-label="Close modal"
+                  className="absolute top-6 right-6 z-10 p-2 hover:bg-brand-secondary transition-colors rounded-full"
+                  aria-label="Close"
                 >
-                  <X size={20} className="text-brand-cocoa" />
+                  <X size={20} className="text-brand-foreground" strokeWidth={1} />
                 </button>
 
-                {/* Left Side - Image */}
-                <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-full bg-brand-light-pink">
+                <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-full bg-brand-secondary">
                   <Image 
-                    src="/images/brand-modal-image.webp" 
-                    alt="Morning Ritual" 
+                    src="/images/placeholder-modal.jpg" 
+                    alt="weekend sleepover" 
                     fill
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-brand-red/10 mix-blend-multiply" />
+                  <div className="absolute inset-0 bg-brand-foreground/5" />
                 </div>
 
-                {/* Right Side - Content */}
-                <div className="w-full md:w-1/2 p-10 md:p-14 flex flex-col justify-center text-center">
-                  <span className="font-sans font-bold text-xs uppercase tracking-[0.2em] text-brand-red mb-4">
-                    WEEKEND SLEEPOVER
+                <div className="w-full md:w-1/2 p-10 md:p-16 flex flex-col justify-center">
+                  <span className="font-sans font-bold text-[10px] uppercase tracking-[0.3em] text-brand-primary mb-6">
+                    guest list open
                   </span>
                   
-                  <h2 className="font-serif text-4xl md:text-5xl text-brand-cocoa mb-6 leading-none">
-                    Drop Day <br/> <span className="italic text-brand-dark-pink">Incoming</span>
+                  <h2 className="font-serif text-5xl text-brand-foreground mb-6 leading-none lowercase">
+                    the first <br/> <span className="italic font-light">drop.</span>
                   </h2>
                   
-                  <p className="font-sans text-brand-cocoa/70 mb-8 leading-relaxed">
-                    Join our mailing list to be the first to know. Get exclusive early access & secret offers.
+                  <p className="font-sans text-brand-foreground/60 mb-10 leading-relaxed text-sm lowercase max-w-xs">
+                    our collections are released in small batches. join the list to secure your invite to our upcoming debut drop.
                   </p>
 
-                  <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); handleClose(); }}>
-                    <input 
-                      type="email" 
-                      placeholder="Your Email"
-                      aria-label="Email address for waitlist"
-                      className="w-full bg-brand-light-pink/30 border border-brand-pink/50 rounded-lg px-4 py-3 placeholder:text-brand-dark-pink/40 text-brand-dark-pink focus:outline-none focus:border-brand-red transition-colors text-center font-medium"
-                      required
-                    />
+                  <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); handleClose(); }}>
+                    <div className="border-b border-brand-foreground/10 pb-2">
+                       <input 
+                        type="email" 
+                        placeholder="email address"
+                        className="w-full bg-transparent py-2 placeholder:text-brand-foreground/30 text-brand-foreground focus:outline-none italic font-serif text-xl lowercase"
+                        required
+                      />
+                    </div>
                     
-                    <button className="w-full bg-brand-dark-pink text-white font-bold uppercase tracking-widest py-4 rounded-full shadow-lg transition-all hover:scale-[1.02]">
-                      Sign Me Up!
+                    <button className="w-full bg-brand-foreground text-brand-background font-sans text-[11px] uppercase tracking-[0.2em] py-5 rounded-full shadow-lg transition-all hover:bg-brand-foreground/90 font-medium">
+                      join the guest list
                     </button>
                   </form>
 
                   <button 
                     onClick={handleClose}
-                    className="mt-6 text-[10px] font-bold uppercase tracking-widest text-brand-cocoa/40 hover:text-brand-cocoa transition-colors"
+                    className="mt-8 text-[9px] font-bold uppercase tracking-widest text-brand-foreground/30 hover:text-brand-foreground transition-colors text-center"
                   >
-                    No, thanks
+                    continue to site
                   </button>
                 </div>
 
@@ -111,36 +104,31 @@ export function BrandModal() {
         )}
       </AnimatePresence>
 
-      {/* Floating Trigger Button (Bottom Right) */}
       <AnimatePresence>
         {!isOpen && (
            <motion.button
              onClick={() => setIsOpen(true)}
-             initial={{ scale: 0, rotate: 180 }}
-             animate={{ scale: 1, rotate: 0 }}
-             exit={{ scale: 0, rotate: -180 }}
-             whileHover={{ scale: 1.05 }}
-             className="fixed bottom-4 left-4 md:bottom-8 md:left-8 z-40 group active:scale-95"
-             aria-label="Open waitlist signup"
+             initial={{ scale: 0 }}
+             animate={{ scale: 1 }}
+             className="fixed bottom-6 left-6 md:bottom-10 md:left-10 z-40 group"
+             aria-label="Open waitlist"
            >
-             <div className="relative w-20 h-20 md:w-28 md:h-28 flex items-center justify-center pointer-events-none">
-                {/* Rotating Text Ring */}
-                <div className="absolute inset-0 animate-[spin_10s_linear_infinite] group-hover:animate-[spin_4s_linear_infinite]">
-                   <svg viewBox="0 0 100 100" width="100%" height="100%" className="w-full h-full" aria-hidden="true">
+             <div className="relative w-24 h-24 md:w-32 md:h-32 flex items-center justify-center pointer-events-none">
+                <div className="absolute inset-0 animate-[spin_12s_linear_infinite]">
+                   <svg viewBox="0 0 100 100" width="100%" height="100%" className="w-full h-full overflow-visible">
                       <defs>
-                        <path id="circle" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
+                        <path id="circlePath" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" />
                       </defs>
-                      <text fontSize="12" fontWeight="bold" fill="#c51253" letterSpacing="2">
-                        <textPath xlinkHref="#circle" startOffset="50%" textAnchor="middle">
-                          JOIN WAITLIST • GET ACCESS •
+                      <text fontSize="10" fontWeight="bold" fill="var(--color-brand-primary)" letterSpacing="2.5">
+                        <textPath xlinkHref="#circlePath" startOffset="0%">
+                          JOIN THE GUEST LIST • WEEKEND SLEEPOVER •
                         </textPath>
                       </text>
                    </svg>
                 </div>
                 
-                {/* Center Circle */}
-                <div className="absolute w-10 h-10 md:w-14 md:h-14 bg-brand-red rounded-full flex items-center justify-center shadow-lg text-white pointer-events-auto">
-                   <span className="font-serif italic font-bold text-lg md:text-xl">WS</span>
+                <div className="absolute w-12 h-12 md:w-16 md:h-16 bg-brand-foreground rounded-full flex items-center justify-center shadow-lg text-brand-background border border-brand-background/10 pointer-events-auto group-hover:bg-brand-primary transition-colors">
+                   <span className="font-serif italic text-xl md:text-2xl">ws</span>
                 </div>
              </div>
            </motion.button>
